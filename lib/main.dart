@@ -1,13 +1,18 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_application_2/base/account_helper.dart';
+import 'package:flutter_application_2/base/storage_service.dart';
+import 'package:flutter_application_2/model/user/user_info_dto.dart';
 import 'package:flutter_application_2/screen/ExpendTypeManagement/%C4%90M/dm_view.dart';
 import 'package:flutter_application_2/screen/ExpendTypeManagement/KB/kb_view.dart';
 import 'package:flutter_application_2/screen/ExpendTypeManagement/XL/xen_lo_view.dart';
 import 'package:flutter_application_2/screen/ExpendTypeManagement/ZH/zh_view.dart';
+import 'package:flutter_application_2/screen/login/login_view.dart';
 import 'package:se_gay_components/common/sg_text.dart';
 import 'package:se_gay_components/web_base/sg_sidebar/sg_sidebar.dart';
 import 'package:se_gay_components/web_base/sg_web_base.dart';
+import 'package:get/get.dart';
 
 void main() {
   runApp(const MyApp());
@@ -19,7 +24,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
           // This is the theme of your application.
@@ -40,10 +45,10 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: MyHomePage(
-          title: 's',
-        ));
-    // home: const LoginView());
+        // home: MyHomePage(
+        //   title: 's',
+        // ));
+        home: const LoginView());
   }
 }
 
@@ -124,6 +129,23 @@ class _MyHomePageState extends State<MyHomePage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
+    final menuItems =  [
+      const MenuItem(icon: Icons.abc, label: "Home", idMenu: "Home"),
+      const MenuItem(icon: Icons.cabin, label: "Category", children: [
+        MenuItem(icon: Icons.abc, label: "Home", idMenu: "H"),
+        MenuItem(icon: Icons.abc, label: "Home", idMenu: "M")
+      ]),
+      const MenuItem(icon: Icons.cabin, label: "ExpendType Management", children: [
+        MenuItem(icon: Icons.abc, label: "ZH", idMenu: "ZH"),
+        MenuItem(icon: Icons.abc, label: "KB", idMenu: "KB"),
+        MenuItem(icon: Icons.abc, label: "ĐM", idMenu: "ĐM"),
+        MenuItem(icon: Icons.abc, label: "Xén lò", idMenu: "XL"),
+      ]),
+    ];
+    UserInfoDTO? userInfoDTO = AccountHelper.instance.getUserInfo();
+    if (userInfoDTO != null && userInfoDTO.role == "ADMIN") {
+      menuItems.insert(0, const MenuItem(icon: Icons.ac_unit_sharp, label: "User"));
+    }
     return Scaffold(
         appBar: AppBar(
           // TRY THIS: Try changing the color here to a specific color (to
@@ -136,22 +158,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         body: SGWebBase(
           name: "SGDash",
-          menuItems: const [
-            MenuItem(icon: Icons.abc, label: "Home", idMenu: "Home"),
-            MenuItem(icon: Icons.cabin, label: "Category", children: [
-              MenuItem(icon: Icons.abc, label: "Home", idMenu: "H"),
-              MenuItem(icon: Icons.abc, label: "Home", idMenu: "M")
-            ]),
-            MenuItem(
-                icon: Icons.cabin,
-                label: "ExpendType Management",
-                children: [
-                  MenuItem(icon: Icons.abc, label: "ZH", idMenu: "ZH"),
-                  MenuItem(icon: Icons.abc, label: "KB", idMenu: "KB"),
-                  MenuItem(icon: Icons.abc, label: "ĐM", idMenu: "ĐM"),
-                  MenuItem(icon: Icons.abc, label: "Xén lò", idMenu: "XL"),
-                ]),
-          ],
+          menuItems: menuItems,
           selectedIndex: selectedIndex,
           onItemSelected: (index, [subIndex]) {
             selectedIndex = index;

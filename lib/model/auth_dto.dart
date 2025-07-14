@@ -1,19 +1,25 @@
-
-import 'package:flutter_application_2/model/user/user_info_dto.dart';
-
 class AuthDTO {
   final String accessToken;
-  final UserInfoDTO user;
+  final String userName;
+  final String fullName;
+  final String role;
+  final String message;
 
   AuthDTO({
     required this.accessToken,
-    required this.user,
+    required this.userName,
+    required this.fullName,
+    required this.role,
+    required this.message,
   });
 
   // Convert from Json to EventDTO.
   factory AuthDTO.fromJson(Map<String, dynamic> json) {
     return AuthDTO(
         accessToken: json['access_token'],
-        user: UserInfoDTO.fromJson(json['user']));
+        userName: json['username'],
+        fullName: json['fullName'],
+        role: json['role'],
+        message: json['message']);
   }
 }

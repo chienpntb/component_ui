@@ -1,6 +1,6 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_application_2/main.dart';
 import 'package:flutter_application_2/screen/login/bloc/login_bloc.dart';
 import 'package:flutter_application_2/screen/login/bloc/login_event.dart';
 import 'package:flutter_application_2/screen/login/bloc/login_state.dart';
@@ -45,6 +45,9 @@ class LoginProvider with ChangeNotifier {
     //   navigatorKey: AppRoutes.instance.navigatorKey,
     //   routeName: Routes.APP_NAVIGATOR,
     // );
+    Get.to(const MyHomePage(title: 's',));
+    //   title: 's',
+    // ));());
   }
 
   // onLoginFailed method

@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_application_2/model/auth_dto.dart';
+import 'package:flutter_application_2/model/user/user_info_dto.dart';
 
 class LoginState extends Equatable {
   const LoginState();
@@ -45,4 +46,32 @@ class PostLoginFailedState extends LoginState {
       'message': message,
     };
   }
+}
+
+class GetUsersSuccessState extends LoginState {
+  final List<UserInfoDTO> users;
+  const GetUsersSuccessState(this.users);
+
+  @override
+  List<Object> get props => [users];
+}
+
+class CreateUserSuccessState extends LoginState {
+  final UserInfoDTO user;
+  const CreateUserSuccessState(this.user);
+
+  @override
+  List<Object> get props => [user];
+}
+
+class UpdateUserSuccessState extends LoginState {
+  final UserInfoDTO user;
+  const UpdateUserSuccessState(this.user);
+
+  @override
+  List<Object> get props => [user];
+}
+
+class DeleteUserSuccessState extends LoginState {
+  const DeleteUserSuccessState();
 }

@@ -1,8 +1,6 @@
 // ignore_for_file: constant_identifier_names, non_constant_identifier_names
 //
 
-import 'dart:nativewrappers/_internal/vm/lib/developer.dart';
-
 import 'package:get_storage/get_storage.dart';
 
 
@@ -26,7 +24,7 @@ class StorageService {
   }
 
   static Future<void> remove(String key) async {
-    log('Removing $key from local storage');
+    print('Removing $key from local storage');
     await storage.remove(key);
   }
 
@@ -37,6 +35,7 @@ class StorageService {
 
 class StorageKey {
   static const USER_INFO = 'user_info';
+  static const AUTH_INFO = 'auth_info';
   static const TOKEN = 'token';
   static const FIREBASE_TOKEN = 'fcmToken';
   static const LANGUAGE = 'currentLang';

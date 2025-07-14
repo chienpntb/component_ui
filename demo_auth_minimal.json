@@ -1,0 +1,17 @@
+{
+  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI5ODc2NTQzMjEwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.example_token_here",
+  "user": {
+    "id": 2,
+    "username": "jane_smith",
+    "password": "hashed_password_456",
+    "fullName": "Jane Smith",
+    "dateOfBirth": null,
+    "email": null,
+    "createdAt": "2024-02-01T09:00:00.000Z",
+    "updatedAt": null,
+    "createdBy": null,
+    "updatedBy": null,
+    "isActive": true,
+    "role": "admin"
+  }
+} 

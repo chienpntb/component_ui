@@ -1,5 +1,7 @@
+import 'dart:developer';
 
-import 'package:flutter_application_2/model/base/storage_service.dart';
+import 'package:flutter_application_2/base/storage_service.dart';
+import 'package:flutter_application_2/model/auth_dto.dart';
 import 'package:flutter_application_2/model/user/user_info_dto.dart';
 
 class AccountHelper {
@@ -12,13 +14,27 @@ class AccountHelper {
   static AccountHelper get instance => _instance;
 
   setUserInfo(userLogin) {
+    log("setUserInfo $userLogin");
     StorageService.write(StorageKey.USER_INFO, userLogin);
   }
 
+  setAuthInfo(userLogin) {
+    log("setUserInfo $userLogin");
+    StorageService.write(StorageKey.AUTH_INFO, userLogin);
+  }
+
   UserInfoDTO? getUserInfo() {
-    if (StorageService.read(StorageKey.USER_INFO) != null) {
-      return StorageService.read(StorageKey.USER_INFO);
-    }
+    final raw = StorageService.read(StorageKey.USER_INFO);
+    if (raw == null) return null;
+    if (raw is UserInfoDTO) return raw;
+    if (raw is Map) return UserInfoDTO.fromJson(Map<String, dynamic>.from(raw));
+    return null;
+  }
+  AuthDTO? getAuthInfo() {
+    final raw = StorageService.read(StorageKey.AUTH_INFO);
+    if (raw == null) return null;
+    if (raw is AuthDTO) return raw;
+    if (raw is Map) return AuthDTO.fromJson(Map<String, dynamic>.from(raw));
     return null;
   }
 

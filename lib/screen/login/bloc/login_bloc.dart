@@ -8,6 +8,10 @@ import 'package:dio/dio.dart' as dio;
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   LoginBloc() : super(LoginInitialState()) {
     on<PostLoginEvent>(_postLogin);
+    on<GetUsersEvent>(_getUsers);
+    on<CreateUserEvent>(_createUser);
+    on<UpdateUserEvent>(_updateUser);
+    on<DeleteUserEvent>(_deleteUser);
   }
 
   // Handle PostLoginEvent.
@@ -36,6 +40,82 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           title: "notice",
           code: result.statusCode ?? -1,
           message: result.statusMessage ?? ''));
+    }
+  }
+
+  Future<void> _getUsers(GetUsersEvent event, Emitter emit) async {
+    emit(LoginLoadingState());
+    try {
+      final result = await AuthRepository().getUsers();
+      emit(LoginLoadingDismissState());
+      if (result.statusCode == 200 && result.data != null) {
+        emit(GetUsersSuccessState(result.data!));
+      } else {
+        emit(PostLoginFailedState(
+            title: "notice",
+            code: result.statusCode ?? -1,
+            message: result.statusMessage ?? ''));
+      }
+    } catch (e) {
+      emit(LoginLoadingDismissState());
+      emit(PostLoginFailedState(title: "error", code: -1, message: e.toString()));
+    }
+  }
+
+  Future<void> _createUser(CreateUserEvent event, Emitter emit) async {
+    emit(LoginLoadingState());
+    try {
+      final result = await AuthRepository().createUser(event.user);
+      emit(LoginLoadingDismissState());
+      if (result.statusCode == 200 && result.data != null) {
+        emit(CreateUserSuccessState(result.data!));
+      } else {
+        emit(PostLoginFailedState(
+            title: "notice",
+            code: result.statusCode ?? -1,
+            message: result.statusMessage ?? ''));
+      }
+    } catch (e) {
+      emit(LoginLoadingDismissState());
+      emit(PostLoginFailedState(title: "error", code: -1, message: e.toString()));
+    }
+  }
+
+  Future<void> _updateUser(UpdateUserEvent event, Emitter emit) async {
+    emit(LoginLoadingState());
+    try {
+      final result = await AuthRepository().updateUser(event.id, event.user);
+      emit(LoginLoadingDismissState());
+      if (result.statusCode == 200 && result.data != null) {
+        emit(UpdateUserSuccessState(result.data!));
+      } else {
+        emit(PostLoginFailedState(
+            title: "notice",
+            code: result.statusCode ?? -1,
+            message: result.statusMessage ?? ''));
+      }
+    } catch (e) {
+      emit(LoginLoadingDismissState());
+      emit(PostLoginFailedState(title: "error", code: -1, message: e.toString()));
+    }
+  }
+
+  Future<void> _deleteUser(DeleteUserEvent event, Emitter emit) async {
+    emit(LoginLoadingState());
+    try {
+      final result = await AuthRepository().deleteUser(event.id);
+      emit(LoginLoadingDismissState());
+      if (result.statusCode == 200) {
+        emit(DeleteUserSuccessState());
+      } else {
+        emit(PostLoginFailedState(
+            title: "notice",
+            code: result.statusCode ?? -1,
+            message: result.statusMessage ?? ''));
+      }
+    } catch (e) {
+      emit(LoginLoadingDismissState());
+      emit(PostLoginFailedState(title: "error", code: -1, message: e.toString()));
     }
   }
 }
